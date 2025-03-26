@@ -11,4 +11,47 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @map("_id")
+  name      String
+  email     String   @unique
+  password  String
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        String   @id @default(uuid()) @map("_id")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  content   String
+  likes     Like[]
+  comments  Comment[]
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id        String   @id @default(uuid()) @map("_id")
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId]) // Ensures one like per user per post
+}
+
+model Comment {
+  id        String   @id @default(uuid()) @map("_id")
+  userId    String
+  postId    String
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  text      String
+  createdAt DateTime @default(now())
 }
