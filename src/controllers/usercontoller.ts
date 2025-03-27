@@ -1,4 +1,5 @@
 import {prismaClient}from '../extras/prisma';
+import type { NextFunction } from 'express';
 
 interface CustomRequest {
   user?: { id: string };
@@ -22,11 +23,13 @@ export const getUserDetails = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getAllUsers = async (_req: CustomRequest, res: Response) => {
+export const getAllUsers = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const users = await prismaClient.user.findMany({ orderBy: { name: 'asc' }, select: { password: false } });
-    res.json(users);
+      // Your existing logic
+      const users = await prismaClient.user.findMany({ orderBy: { name: 'asc' }, select: { password: false } });
+      res.json(users);
+      res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
+      next(error);
   }
 };

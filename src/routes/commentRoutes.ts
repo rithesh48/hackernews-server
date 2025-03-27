@@ -9,3 +9,5 @@ router.post('/on/:postId', verifyToken, addComment); // Add a comment to a post
 router.delete('/:commentId', verifyToken, deleteComment); // Delete a comment (only if it belongs to the user)
 
 export default router;
+// Add the missing export for deleteComment
+export { getComments, addComment, deleteComment };
