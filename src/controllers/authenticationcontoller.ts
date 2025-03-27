@@ -1,4 +1,4 @@
-import prisma from './prisma';
+import { prismaClient } from '../extras/prisma';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -18,8 +18,8 @@ type Response = {
 export const signUp = async (req: UserRequest, res: Response) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await prisma.user.create({
-      data: { name: req.body.name, email: req.body.email, password: hashedPassword },
+    await prismaClient.user.create({
+      data: { name: req.body.name ?? 'Anonymous', email: req.body.email, password: hashedPassword },
     });
     res.status(201).json({ message: 'User created' });
   } catch (error) {
@@ -29,7 +29,7 @@ export const signUp = async (req: UserRequest, res: Response) => {
 
 export const logIn = async (req: UserRequest, res: Response) => {
   try {
-    const user = await prisma.user.findUnique({ where: { email: req.body.email } });
+    const user = await prismaClient.user.findUnique({ where: { email: req.body.email } });
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }

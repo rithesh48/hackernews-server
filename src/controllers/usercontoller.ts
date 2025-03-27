@@ -1,4 +1,4 @@
-import prisma from '../config/prisma';
+import {prismaClient}from '../extras/prisma';
 
 interface CustomRequest {
   user?: { id: string };
@@ -15,7 +15,7 @@ export const getUserDetails = async (req: CustomRequest, res: Response) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: req.user.id }, select: { password: false } });
+    const user = await prismaClient.user.findUnique({ where: { id: req.user.id }, select: { password: false } });
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
@@ -24,7 +24,7 @@ export const getUserDetails = async (req: CustomRequest, res: Response) => {
 
 export const getAllUsers = async (_req: CustomRequest, res: Response) => {
   try {
-    const users = await prisma.user.findMany({ orderBy: { name: 'asc' }, select: { password: false } });
+    const users = await prismaClient.user.findMany({ orderBy: { name: 'asc' }, select: { password: false } });
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });

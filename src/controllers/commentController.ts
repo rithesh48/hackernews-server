@@ -1,4 +1,4 @@
-import prisma from '../config/prisma';
+import {prismaClient} from '../extras/prisma';
 
 interface CustomRequest {
   user?: { id: string };
@@ -18,7 +18,7 @@ export const addComment = async (req: CustomRequest, res: Response) => {
     }
 
     const { postId } = req.params;
-    const comment = await prisma.comment.create({
+    const comment = await prismaClient.comment.create({
       data: { userId: req.user.id, postId, text: req.body.text },
     });
     res.json(comment);

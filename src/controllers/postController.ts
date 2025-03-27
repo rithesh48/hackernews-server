@@ -1,4 +1,4 @@
-import prisma from '../config/prisma';
+import {prismaClient} from '../extras/prisma';
 import type { Request, Response } from 'express';
 
 // Extend the Request interface to include the 'user' property
@@ -12,7 +12,7 @@ export const createPost = async (req: CustomRequest, res: Response) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const post = await prisma.post.create({
+    const post = await prismaClient.post.create({
       data: { userId: req.user.id, content: req.body.content },
     });
     res.json(post);
@@ -24,7 +24,7 @@ export const createPost = async (req: CustomRequest, res: Response) => {
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prismaClient.post.findMany();
     res.json(posts);
   } catch (error) {
     console.error('Error fetching posts:', error);
