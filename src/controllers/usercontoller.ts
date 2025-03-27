@@ -1,8 +1,12 @@
-import { Request, Response } from 'express';
-import User from '../models/User';
+import prisma from '../config/prisma';
 
-interface CustomRequest extends Request {
+interface CustomRequest {
   user?: { id: string };
+}
+
+interface Response {
+  status: (code: number) => Response;
+  json: (data: any) => void;
 }
 
 export const getUserDetails = async (req: CustomRequest, res: Response) => {
@@ -11,18 +15,18 @@ export const getUserDetails = async (req: CustomRequest, res: Response) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await prisma.user.findUnique({ where: { id: req.user.id }, select: { password: false } });
     res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: (err as Error).message });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (_req: CustomRequest, res: Response) => {
   try {
-    const users = await User.find().sort({ name: 1 }).select('-password');
+    const users = await prisma.user.findMany({ orderBy: { name: 'asc' }, select: { password: false } });
     res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: (err as Error).message });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
   }
 };

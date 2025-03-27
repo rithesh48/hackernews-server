@@ -1,14 +1,22 @@
-const prisma = require('../config/prisma');
+import prisma from '../config/prisma';
 
-import type { Request, Response } from 'express';
-
-interface CustomRequest extends Request {
-  user: { id: string };
+interface CustomRequest {
+  user?: { id: string };
+  params: { postId: string };
+  body: { text: string };
 }
 
+interface Response {
+  json: (data: any) => void;
+  status: (code: number) => Response;
+}
 
-const addComment = async (req: CustomRequest, res: Response) => {
+export const addComment = async (req: CustomRequest, res: Response) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const { postId } = req.params;
     const comment = await prisma.comment.create({
       data: { userId: req.user.id, postId, text: req.body.text },
@@ -18,5 +26,3 @@ const addComment = async (req: CustomRequest, res: Response) => {
     res.status(500).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
   }
 };
-
-module.exports = { addComment };
