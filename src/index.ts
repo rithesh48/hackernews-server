@@ -1,11 +1,11 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const authRoutes = require('./src/routes/authRoutes');
-const userRoutes = require('./src/routes/userRoutes');
-const postRoutes = require('./src/routes/postRoutes');
-const likeRoutes = require('./src/routes/likeRoutes');
-const commentRoutes = require('./src/routes/commentRoutes');
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import { authRoutes } from '../src/routes/authRoutes';
+import userRoutes from '../src/routes/userRoutes';
+import postRoutes from '../src/routes/postRoutes';
+import likeRoutes from '../src/routes/likeRoutes';
+import commentRoutes from '../src/routes/commentRoutes';
 
 dotenv.config();
 const app = express();
@@ -19,5 +19,5 @@ app.use('/posts', postRoutes);
 app.use('/likes', likeRoutes);
 app.use('/comments', commentRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT: number = parseInt(process.env.PORT || '5000', 10);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
