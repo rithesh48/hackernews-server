@@ -2,10 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { authRoutes } from '../src/routes/authRoutes';
-import userRoutes from '../src/routes/userRoutes';
-import postRoutes from '../src/routes/postRoutes';
-import likeRoutes from '../src/routes/likeRoutes';
-import commentRoutes from '../src/routes/commentRoutes';
+import { userRoutes } from '../src/routes/userRoutes';
+import { postRoutes } from '../src/routes/postRoutes';
+import { likeRoutes } from '../src/routes/likeRoutes';
+import {commentRoutes} from '../src/routes/commentRoutes';
 
 dotenv.config();
 const app = express();
