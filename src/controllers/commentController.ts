@@ -1,6 +1,13 @@
 const prisma = require('../config/prisma');
 
-const addComment = async (req, res) => {
+import type { Request, Response } from 'express';
+
+interface CustomRequest extends Request {
+  user: { id: string };
+}
+
+
+const addComment = async (req: CustomRequest, res: Response) => {
   try {
     const { postId } = req.params;
     const comment = await prisma.comment.create({
@@ -8,7 +15,7 @@ const addComment = async (req, res) => {
     });
     res.json(comment);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
   }
 };
 

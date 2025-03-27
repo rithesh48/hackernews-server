@@ -2,7 +2,7 @@ const prisma = require('../config/prisma');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const signUp = async (req, res) => {
+const signUp = async (req: import('express').Request, res: import('express').Response) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = await prisma.user.create({
@@ -10,11 +10,11 @@ const signUp = async (req, res) => {
     });
     res.status(201).json({ message: 'User created' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error as Error).message });
   }
 };
 
-const logIn = async (req, res) => {
+const logIn = async (req: import('express').Request, res: import('express').Response) => {
   try {
     const user = await prisma.user.findUnique({ where: { email: req.body.email } });
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
@@ -23,7 +23,7 @@ const logIn = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: (error as Error).message });
   }
 };
 
