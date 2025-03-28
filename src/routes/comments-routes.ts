@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { tokenMiddleware } from "./middlewares/token-middleware";
-import { createComment, deleteComment, getComments, updateComment } from "../controllers/comments/comments-contoller";
+import { createComment, deleteComment, getComments, updateComment } from "../controllers/comments/comments-controller";
 import { CommentError } from "../controllers/comments/comments-types";
 export const commentsRoutes = new Hono();
 commentsRoutes.get("/on/:postId", async (c) => {

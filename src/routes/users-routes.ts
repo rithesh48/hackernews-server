@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { tokenMiddleware } from "./middlewares/token-middleware";
-import { getAllUsers, getMe } from "../controllers/users/users-controller";
+import { getAllUsers, getMe } from "../controllers/users/users-controllers";
 import { GetMeError } from "../controllers/users/users-types";
 export const usersRoutes = new Hono();
 usersRoutes.get("/me", tokenMiddleware, async (context) => {

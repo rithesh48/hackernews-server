@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { tokenMiddleware } from "./middlewares/token-middleware";
-import { createPost, deletePost, getAllPosts, getMyPosts } from "../controllers/posts/posts-controller";
-import { PostError } from "../controllers/posts/posts-types";
+import { createPost, deletePost, getAllPosts, getMyPosts } from "../controllers/posts/post-controller";
+import { PostError } from "../controllers/posts/post-types";
 export const postsRoutes = new Hono();
 postsRoutes.get("", async (c) => {
   const page = Number(c.req.query("page") || 1);
