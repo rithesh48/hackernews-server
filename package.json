@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsx watch -r dotenv/config src/index.ts",
     "build": "tsc -p tsconfig.build.json",
-    "start": "node src/index.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
