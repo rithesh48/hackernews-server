@@ -7,6 +7,7 @@ yarn.lock
 # Ignore local environment files
 .env
 .env.*
+Dockerfilehackernews-server
 
 # Ignore build output
 dist
@@ -27,3 +28,4 @@ coverage
 # Mac/Linux/Windows system files
 .DS_Store
 Thumbs.db
+node_modules/
