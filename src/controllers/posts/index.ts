@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { sessionMiddleware } from "../../routes/middlewares/session-middleware";
 import { createPost, deletePost, getAllPosts, getPostById, getPostsByUser, getPostsFromYesterday, getTopPostsToday } from "./post-controller";
-import { DeletePostError, GetPostsError, PostStatus } from "./post-types";
+import { DeletePostError, GetPostsError, PostStatus } from "./posts-types";
 
 
 export const postsRoutes = new Hono();

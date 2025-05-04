@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import { GetMe, GetUsers } from "../../controllers/users/users-controller";
+import { GetMe, GetUsers } from "./users-controller";
 import { GetAllUsersError, GetMeError, GetUserByIdError } from "../../controllers/users/users-types";
 import { sessionMiddleware } from "../../routes/middlewares/session-middleware";
 
