@@ -1,16 +1,13 @@
-import "dotenv/config"; // Load .env first
+import "dotenv/config";
 import { serve } from "@hono/node-server";
-import { allRoutes } from "./routes";
+import { allRoutes } from "./routes/routes.js";
+import { Hono } from "hono";
 
-// Get PORT from environment variable (required by Azure)
-const port = parseInt(process.env.PORT || "3000", 10);
 
-serve(
-  {
-    fetch: allRoutes.fetch,
-    port: port,
-  },
-  (info) => {
-    console.log(`🚀 SERVER RUNNING ON PORT ${info.port}`);
-  }
-);
+const app = new Hono();
+
+app.route("/", allRoutes);
+serve(app);
+
+
+// console.log("server is running at http://localhost:3000/ui");
